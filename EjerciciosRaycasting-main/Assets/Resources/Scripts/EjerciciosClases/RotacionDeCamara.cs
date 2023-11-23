@@ -5,13 +5,16 @@ using UnityEngine;
 public class RotacionDeCamara : MonoBehaviour
 {
     public GameObject Camara;
+    public GameObject Personaje;
     Rigidbody rb;
     float rotacionx = 0f;
     float rotaciony = 0f;
+    public float velocidad = 3;
+
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        rb = Personaje.GetComponent<Rigidbody>();
         Camara = this.gameObject;
     }
 
@@ -27,7 +30,7 @@ public class RotacionDeCamara : MonoBehaviour
 
         transform.eulerAngles = new Vector3(-rotaciony, rotacionx, 0);
 
-
+        Mover();
     }
 
 
@@ -38,11 +41,11 @@ public class RotacionDeCamara : MonoBehaviour
         rectoCamara.y = 0;
         ladoCamara.y = 0;
 
-        Vector3 direccion = Input.GetAxisRaw("Horizontal") * ladoCamara
-            + Input.GetAxisRaw("Vertical") * rectoCamara;
+        Vector3 direccion = (Input.GetAxisRaw("Horizontal") * ladoCamara) * velocidad
+            + (Input.GetAxisRaw("Vertical") * rectoCamara) * velocidad;
         direccion.y = rb.velocity.y;
 
-        Debug.Log(direccion);
+        //Debug.Log(direccion);
 
         rb.velocity = direccion;
     }
